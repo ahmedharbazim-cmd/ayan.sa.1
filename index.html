@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شركة عيان العقارية — تقييم عقاري، إدارة مزادات، إدارة أملاك</title>
+<meta name="description" content="شركة عيان العقارية: خبراء التقييم العقاري، إدارة الأملاك، وتنظيم المزادات العقارية باحترافية عالية في الرياض.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== Design tokens ===== */
+:root{
+  --navy-950:#04101F;
+  --navy-900:#0A2647;
+  --navy-800:#0F3160;
+  --blue-700:#134C87;
+  --blue-600:#1B63A6;
+  --blue-500:#2678C4;
+  --blue-400:#4E9BDB;
+  --blue-300:#7FBBE8;
+  --sky-200:#BFE0F7;
+  --ice-100:#E9F3FC;
+  --ice-50:#F4F9FE;
+  --white:#FFFFFF;
+  --ink:#0B2036;
+  --muted:#5B7290;
+  --gold:#C9A24B; /* used sparingly only for star icons, price emphasis */
+  --shadow: 0 10px 30px -12px rgba(10,38,71,.25);
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --container: 1180px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--ice-50); color:var(--ink);
+  font-family:'Tajawal',sans-serif; font-weight:400; line-height:1.85;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+h1,h2,h3,h4{font-family:'Cairo',sans-serif; color:var(--navy-900); margin:0; line-height:1.35;}
+p{margin:0;}
+a{color:inherit; text-decoration:none;}
+img{max-width:100%; display:block;}
+.container{max-width:var(--container); margin:0 auto; padding:0 28px;}
+section{padding:96px 0;}
+.eyebrow-plain{color:var(--blue-600); font-weight:700; font-family:'Cairo'; font-size:.95rem; margin-bottom:10px; display:block;}
+.section-head{max-width:640px; margin-bottom:52px;}
+.section-head h2{font-size:clamp(1.6rem,3vw,2.3rem); font-weight:800;}
+.section-head p{color:var(--muted); margin-top:14px; font-size:1.02rem;}
+.btn{
+  display:inline-flex; align-items:center; gap:10px; padding:15px 30px; border-radius:100px;
+  font-family:'Cairo'; font-weight:700; font-size:.98rem; cursor:pointer; border:none;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s, background .35s;
+}
+.btn-solid{background:var(--white); color:var(--navy-900); box-shadow:0 8px 24px -8px rgba(0,0,0,.35);}
+.btn-solid:hover{transform:translateY(-3px); box-shadow:0 14px 30px -10px rgba(0,0,0,.4);}
+.btn-outline{border:1.5px solid rgba(255,255,255,.55); color:#fff;}
+.btn-outline:hover{background:rgba(255,255,255,.12); transform:translateY(-3px);}
+.btn-primary{background:var(--blue-600); color:#fff; box-shadow:0 10px 26px -10px rgba(27,99,166,.6);}
+.btn-primary:hover{background:var(--blue-500); transform:translateY(-3px);}
+
+/* ===== Reveal on scroll ===== */
+.reveal{opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);}
+.reveal.in{opacity:1; transform:translateY(0);}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1!important; transform:none!important; transition:none!important;}
+  *{animation:none!important;}
+}
+
+/* ===== Navbar ===== */
+header.nav{
+  position:fixed; inset-inline:0; top:0; z-index:100;
+  padding:22px 0; transition:background .4s ease, padding .4s ease, box-shadow .4s ease;
+}
+header.nav .container{display:flex; align-items:center; justify-content:space-between;}
+header.nav.scrolled{background:rgba(6,22,42,.92); backdrop-filter:blur(10px); padding:12px 0; box-shadow:0 6px 24px -10px rgba(0,0,0,.4);}
+.brand{display:flex; align-items:center; gap:12px;}
+.brand img{height:44px; width:auto; border-radius:8px;}
+.brand span{font-family:'Cairo'; font-weight:800; color:#fff; font-size:1.15rem;}
+nav.links{display:flex; align-items:center; gap:34px;}
+nav.links a{color:#dce8f5; font-family:'Cairo'; font-weight:600; font-size:.95rem; position:relative; padding:4px 0;}
+nav.links a::after{content:'';position:absolute; right:0; bottom:-2px; width:0; height:2px; background:var(--blue-300); transition:width .3s;}
+nav.links a:hover::after{width:100%;}
+.nav-cta{display:flex; align-items:center; gap:14px;}
+.burger{display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none;}
+.burger span{width:26px; height:2px; background:#fff; border-radius:2px;}
+@media (max-width:960px){
+  nav.links{position:fixed; inset:0; top:0; background:var(--navy-950); flex-direction:column; justify-content:center; align-items:center; gap:30px; transform:translateY(-110%); transition:transform .5s cubic-bezier(.2,.8,.2,1); z-index:99;}
+  nav.links.open{transform:translateY(0);}
+  nav.links a{font-size:1.3rem;}
+  .burger{display:flex;}
+  .nav-cta .btn-primary{display:none;}
+}
+
+/* ===== Hero ===== */
+.hero{
+  position:relative; min-height:100vh; display:flex; align-items:center;
+  background:linear-gradient(155deg,var(--navy-950) 0%, var(--navy-900) 38%, var(--blue-700) 100%);
+  overflow:hidden; padding-top:140px; padding-bottom:60px;
+}
+.hero::before{
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(circle at 82% 18%, rgba(78,155,219,.35), transparent 55%);
+  pointer-events:none;
+}
+.hero-grid{position:relative; z-index:2; display:grid; grid-template-columns:1.1fr .9fr; gap:50px; align-items:center;}
+.hero-copy h1{color:#fff; font-size:clamp(2.3rem,4.4vw,3.6rem); font-weight:800; letter-spacing:-.5px;}
+.hero-copy h1 em{font-style:normal; color:var(--blue-300);}
+.hero-copy p{color:#cfe1f3; font-size:1.12rem; margin-top:22px; max-width:520px;}
+.hero-actions{display:flex; gap:16px; margin-top:38px; flex-wrap:wrap;}
+.hero-stats{display:flex; gap:38px; margin-top:56px; flex-wrap:wrap;}
+.hero-stats div{border-inline-start:2px solid rgba(255,255,255,.25); padding-inline-start:16px;}
+.hero-stats .num{font-family:'Cairo'; font-weight:800; font-size:1.9rem; color:#fff;}
+.hero-stats .lbl{font-size:.85rem; color:#a9c3dd; margin-top:2px;}
+
+/* Skyline SVG scene */
+.skyline-wrap{position:relative; z-index:2; height:420px;}
+.skyline-wrap svg{width:100%; height:100%;}
+.moon-glow{animation:pulseGlow 5s ease-in-out infinite;}
+@keyframes pulseGlow{0%,100%{opacity:.55;}50%{opacity:1;}}
+.bld{transform-origin:bottom;}
+.drift{animation:drift 14s ease-in-out infinite;}
+@keyframes drift{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.twinkle{animation:twinkle 3.4s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:.25;}50%{opacity:1;}}
+
+/* Scroll cue */
+.scroll-cue{position:absolute; bottom:26px; inset-inline:0; margin:auto; width:fit-content; z-index:3; color:#9fbcdb; font-size:.78rem; font-family:'Cairo'; display:flex; flex-direction:column; align-items:center; gap:8px;}
+.scroll-cue .line{width:1px; height:34px; background:linear-gradient(#fff,transparent); animation:scrollLine 2s infinite;}
+@keyframes scrollLine{0%{opacity:0; transform:scaleY(0);}30%{opacity:1; transform:scaleY(1);}100%{opacity:0; transform:scaleY(1) translateY(10px);}}
+
+/* ===== About / intro ===== */
+.about{background:var(--white);}
+.about-grid{display:grid; grid-template-columns:.85fr 1.15fr; gap:64px; align-items:center;}
+.about-art{position:relative; border-radius:var(--radius-lg); overflow:hidden; aspect-ratio:4/5; background:linear-gradient(160deg,var(--navy-900),var(--blue-600));}
+.about-art img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.9; mix-blend-mode:luminosity;}
+.about-art .tag{position:absolute; bottom:22px; right:22px; left:22px; background:rgba(6,22,42,.55); backdrop-filter:blur(6px); border-radius:var(--radius-md); padding:16px 20px; color:#fff; font-family:'Cairo'; font-weight:700;}
+.about-copy p{color:var(--muted); font-size:1.05rem; margin-bottom:18px;}
+.about-copy .founded{display:flex; gap:16px; margin-top:28px; padding:18px 22px; background:var(--ice-50); border-radius:var(--radius-md); border-inline-start:4px solid var(--blue-500);}
+.about-copy .founded b{font-family:'Cairo'; color:var(--navy-900);}
+
+/* ===== Services ===== */
+.services{background:var(--ice-50);}
+.svc-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
+.svc-card{
+  background:#fff; border-radius:var(--radius-lg); padding:38px 30px; box-shadow:var(--shadow);
+  transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s; position:relative; overflow:hidden;
+}
+.svc-card:hover{transform:translateY(-8px); box-shadow:0 20px 40px -14px rgba(10,38,71,.3);}
+.svc-card .icn{width:58px; height:58px; border-radius:16px; background:linear-gradient(140deg,var(--blue-600),var(--navy-800)); display:flex; align-items:center; justify-content:center; margin-bottom:24px;}
+.svc-card .icn svg{width:28px; height:28px; stroke:#fff;}
+.svc-card h3{font-size:1.25rem; margin-bottom:12px;}
+.svc-card p{color:var(--muted); font-size:.96rem;}
+.svc-card .num{position:absolute; top:18px; left:24px; font-family:'Cairo'; font-weight:800; font-size:2.6rem; color:var(--ice-100);}
+
+/* ===== Stats band ===== */
+.stats-band{background:linear-gradient(120deg,var(--navy-950),var(--blue-700)); padding:70px 0;}
+.stats-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px; text-align:center;}
+.stats-grid .num{font-family:'Cairo'; font-weight:900; font-size:clamp(2.1rem,4vw,3rem); color:#fff;}
+.stats-grid .lbl{color:#a9c3dd; margin-top:6px; font-size:.95rem;}
+
+/* ===== Properties ===== */
+.properties{background:var(--white);}
+.prop-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:24px;}
+.prop-card{border-radius:var(--radius-lg); overflow:hidden; background:var(--ice-50); box-shadow:var(--shadow); transition:transform .4s;}
+.prop-card:hover{transform:translateY(-6px);}
+.prop-img{position:relative; aspect-ratio:4/3; overflow:hidden;}
+.prop-img img{width:100%; height:100%; object-fit:cover; transition:transform .6s ease;}
+.prop-card:hover .prop-img img{transform:scale(1.08);}
+.prop-badge{position:absolute; top:14px; right:14px; background:var(--blue-600); color:#fff; font-family:'Cairo'; font-weight:700; font-size:.75rem; padding:5px 12px; border-radius:100px;}
+.prop-body{padding:20px;}
+.prop-body h4{font-size:1.05rem; margin-bottom:8px;}
+.prop-loc{color:var(--muted); font-size:.85rem; display:flex; gap:6px; align-items:flex-start; margin-bottom:12px;}
+.prop-meta{display:flex; justify-content:space-between; align-items:center; border-top:1px solid #e2ecf6; padding-top:12px;}
+.prop-price{font-family:'Cairo'; font-weight:800; color:var(--blue-700);}
+
+/* ===== Why us ===== */
+.why{background:var(--ice-50);}
+.why-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+.why-card{background:#fff; padding:30px 26px; border-radius:var(--radius-md); box-shadow:0 6px 20px -12px rgba(10,38,71,.15); display:flex; gap:16px; align-items:flex-start;}
+.why-card .dot{flex:none; width:44px; height:44px; border-radius:50%; background:var(--ice-100); display:flex; align-items:center; justify-content:center;}
+.why-card .dot svg{width:20px; height:20px; stroke:var(--blue-600);}
+.why-card h4{font-size:1.02rem; margin-bottom:6px;}
+.why-card p{font-size:.9rem; color:var(--muted);}
+
+/* ===== Testimonials ===== */
+.testi{background:linear-gradient(180deg,var(--navy-950),var(--navy-900)); color:#fff; position:relative;}
+.testi .section-head p{color:#a9c3dd;}
+.testi .section-head h2{color:#fff;}
+.testi-track{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+.testi-card{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:var(--radius-lg); padding:32px 28px; backdrop-filter:blur(6px);}
+.stars{color:var(--gold); letter-spacing:3px; margin-bottom:16px; font-size:1.1rem;}
+.testi-card p.quote{color:#dce8f5; font-size:.98rem; margin-bottom:22px;}
+.testi-name{font-family:'Cairo'; font-weight:700; color:#fff;}
+.testi-role{font-size:.8rem; color:#8fa9c4; margin-top:2px;}
+
+/* ===== Articles ===== */
+.articles{background:var(--white);}
+.art-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
+.art-card{border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow); background:#fff; transition:transform .4s;}
+.art-card:hover{transform:translateY(-6px);}
+.art-img{aspect-ratio:16/10; overflow:hidden;}
+.art-img img{width:100%; height:100%; object-fit:cover; transition:transform .6s;}
+.art-card:hover .art-img img{transform:scale(1.06);}
+.art-body{padding:22px;}
+.art-body .date{font-size:.78rem; color:var(--blue-600); font-family:'Cairo'; font-weight:700;}
+.art-body h4{margin-top:10px; font-size:1.05rem;}
+.art-body a.more{display:inline-block; margin-top:14px; font-family:'Cairo'; font-weight:700; color:var(--navy-900); font-size:.9rem; border-bottom:2px solid var(--blue-400);}
+
+/* ===== CTA / contact ===== */
+.contact{background:var(--ice-50);}
+.contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:stretch;}
+.contact-info{background:linear-gradient(160deg,var(--navy-950),var(--blue-700)); border-radius:var(--radius-lg); padding:46px 40px; color:#fff; display:flex; flex-direction:column; justify-content:space-between;}
+.contact-info h3{color:#fff; font-size:1.6rem; margin-bottom:16px;}
+.contact-info p{color:#cfe1f3; font-size:.98rem;}
+.contact-list{margin-top:34px; display:flex; flex-direction:column; gap:18px;}
+.contact-list a, .contact-list div{display:flex; align-items:center; gap:14px; color:#e3edf8; font-size:.95rem;}
+.contact-list .ic{width:38px; height:38px; border-radius:10px; background:rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; flex:none;}
+.contact-list .ic svg{width:18px; height:18px; stroke:#fff;}
+.contact-form{background:#fff; border-radius:var(--radius-lg); padding:44px 40px; box-shadow:var(--shadow);}
+.contact-form h3{font-size:1.35rem; margin-bottom:8px;}
+.contact-form p.sub{color:var(--muted); margin-bottom:26px; font-size:.92rem;}
+.field{margin-bottom:18px;}
+.field label{display:block; font-size:.85rem; font-family:'Cairo'; font-weight:700; margin-bottom:8px; color:var(--navy-900);}
+.field input, .field textarea, .field select{
+  width:100%; padding:13px 16px; border-radius:10px; border:1.5px solid #dde8f3; background:var(--ice-50);
+  font-family:'Tajawal'; font-size:.95rem; color:var(--ink); transition:border-color .3s, background .3s;
+}
+.field input:focus, .field textarea:focus, .field select:focus{outline:none; border-color:var(--blue-500); background:#fff;}
+.field textarea{resize:vertical; min-height:100px;}
+.contact-form .btn-primary{width:100%; justify-content:center; margin-top:6px;}
+
+/* ===== Footer ===== */
+footer.site{background:var(--navy-950); color:#9fb6d0; padding:70px 0 26px;}
+.foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:50px; padding-bottom:44px; border-bottom:1px solid rgba(255,255,255,.08);}
+.foot-brand{display:flex; align-items:center; gap:12px; margin-bottom:18px;}
+.foot-brand img{height:40px; border-radius:8px;}
+.foot-brand span{font-family:'Cairo'; font-weight:800; color:#fff; font-size:1.05rem;}
+footer.site h5{color:#fff; font-family:'Cairo'; font-size:1rem; margin-bottom:20px;}
+footer.site ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; font-size:.92rem;}
+footer.site ul a:hover{color:#fff;}
+.foot-bottom{padding-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:.82rem;}
+
+/* Responsive */
+@media(max-width:980px){
+  .hero-grid{grid-template-columns:1fr;}
+  .skyline-wrap{height:260px; order:-1;}
+  .about-grid, .contact-grid{grid-template-columns:1fr;}
+  .svc-grid, .prop-grid, .why-grid, .testi-track, .art-grid{grid-template-columns:repeat(2,1fr);}
+  .stats-grid{grid-template-columns:repeat(2,1fr); row-gap:34px;}
+  .foot-grid{grid-template-columns:1fr; gap:34px;}
+}
+@media(max-width:600px){
+  section{padding:70px 0;}
+  .svc-grid, .prop-grid, .why-grid, .testi-track, .art-grid{grid-template-columns:1fr;}
+  .hero-stats{gap:24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="siteNav">
+  <div class="container">
+    <a href="#top" class="brand">
+      <img src="https://ayan.sa/wp-content/uploads/2025/04/admin-ajax-1.png" alt="شعار عيان العقارية">
+      <span>عيان العقارية</span>
+    </a>
+    <nav class="links" id="navLinks">
+      <a href="#top" class="nav-close-link">الرئيسية</a>
+      <a href="#about">عن عيان</a>
+      <a href="#services">خدماتنا</a>
+      <a href="#properties">العقارات</a>
+      <a href="#testimonials">آراء العملاء</a>
+      <a href="#contact">اتصل بنا</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-primary">اطلب تقييمك</a>
+      <button class="burger" id="burgerBtn" aria-label="القائمة">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <h1>خبرتنا تصنع <em>القيمة</em> الحقيقية لعقارك</h1>
+      <p>شركة وطنية رائدة في التقييم العقاري وإدارة المزادات وإدارة الأملاك، بأسلوب احترافي يعكس أعلى معايير الجودة والمصداقية في السوق السعودي.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-solid">اطلب تقييمك الآن</a>
+        <a href="https://wa.me/966920023034" target="_blank" class="btn btn-outline">تواصل عبر واتساب</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="num" data-count="5">0</div><div class="lbl">أعوام من الخبرة</div></div>
+        <div><div class="num" data-count="480">0</div><div class="lbl">عملية تقييم منجزة</div></div>
+        <div><div class="num" data-count="120">0</div><div class="lbl">مزاد ناجح</div></div>
+        <div><div class="num" data-count="600">0</div><div class="lbl">عميل واثق بخدماتنا</div></div>
+      </div>
+    </div>
+    <div class="skyline-wrap">
+      <svg viewBox="0 0 480 420" xmlns="http://www.w3.org/2000/svg">
+        <circle class="moon-glow" cx="380" cy="70" r="46" fill="#4E9BDB" opacity=".35"/>
+        <circle cx="380" cy="70" r="22" fill="#BFE0F7"/>
+        <circle class="twinkle" cx="90" cy="60" r="2.2" fill="#fff"/>
+        <circle class="twinkle" cx="150" cy="110" r="1.6" fill="#fff" style="animation-delay:.6s"/>
+        <circle class="twinkle" cx="260" cy="50" r="1.8" fill="#fff" style="animation-delay:1.2s"/>
+        <circle class="twinkle" cx="60" cy="150" r="1.4" fill="#fff" style="animation-delay:1.8s"/>
+        <g class="bld drift" style="animation-delay:0s">
+          <rect x="30" y="230" width="52" height="180" rx="4" fill="#0F3160"/>
+          <rect x="40" y="250" width="10" height="14" fill="#4E9BDB" opacity=".6"/>
+          <rect x="58" y="250" width="10" height="14" fill="#4E9BDB" opacity=".4"/>
+          <rect x="40" y="278" width="10" height="14" fill="#4E9BDB" opacity=".5"/>
+          <rect x="58" y="278" width="10" height="14" fill="#4E9BDB" opacity=".3"/>
+          <rect x="40" y="306" width="10" height="14" fill="#4E9BDB" opacity=".6"/>
+          <rect x="58" y="306" width="10" height="14" fill="#4E9BDB" opacity=".4"/>
+        </g>
+        <g class="bld drift" style="animation-delay:1.4s">
+          <rect x="95" y="170" width="64" height="240" rx="4" fill="#134C87"/>
+          <rect x="108" y="195" width="12" height="16" fill="#7FBBE8" opacity=".5"/>
+          <rect x="130" y="195" width="12" height="16" fill="#7FBBE8" opacity=".7"/>
+          <rect x="108" y="228" width="12" height="16" fill="#7FBBE8" opacity=".4"/>
+          <rect x="130" y="228" width="12" height="16" fill="#7FBBE8" opacity=".6"/>
+          <rect x="108" y="261" width="12" height="16" fill="#7FBBE8" opacity=".5"/>
+          <rect x="130" y="261" width="12" height="16" fill="#7FBBE8" opacity=".3"/>
+          <rect x="112" y="150" width="40" height="24" fill="#134C87"/>
+        </g>
+        <g class="bld drift" style="animation-delay:.8s">
+          <rect x="170" y="120" width="72" height="290" rx="4" fill="#0A2647"/>
+          <rect x="115" y="128" width="182" height="6" fill="#0A2647"/>
+          <path d="M195 120 L206 60 L217 120 Z" fill="#0A2647"/>
+          <rect x="184" y="150" width="14" height="18" fill="#BFE0F7" opacity=".6"/>
+          <rect x="212" y="150" width="14" height="18" fill="#BFE0F7" opacity=".4"/>
+          <rect x="184" y="185" width="14" height="18" fill="#BFE0F7" opacity=".5"/>
+          <rect x="212" y="185" width="14" height="18" fill="#BFE0F7" opacity=".7"/>
+          <rect x="184" y="220" width="14" height="18" fill="#BFE0F7" opacity=".4"/>
+          <rect x="212" y="220" width="14" height="18" fill="#BFE0F7" opacity=".6"/>
+          <rect x="184" y="255" width="14" height="18" fill="#BFE0F7" opacity=".5"/>
+          <rect x="212" y="255" width="14" height="18" fill="#BFE0F7" opacity=".3"/>
+        </g>
+        <g class="bld drift" style="animation-delay:2s">
+          <rect x="250" y="190" width="58" height="220" rx="4" fill="#123C6B"/>
+          <rect x="262" y="210" width="10" height="14" fill="#7FBBE8" opacity=".6"/>
+          <rect x="286" y="210" width="10" height="14" fill="#7FBBE8" opacity=".4"/>
+          <rect x="262" y="238" width="10" height="14" fill="#7FBBE8" opacity=".5"/>
+          <rect x="286" y="238" width="10" height="14" fill="#7FBBE8" opacity=".7"/>
+          <rect x="262" y="266" width="10" height="14" fill="#7FBBE8" opacity=".4"/>
+          <rect x="286" y="266" width="10" height="14" fill="#7FBBE8" opacity=".6"/>
+        </g>
+        <g class="bld drift" style="animation-delay:1s">
+          <rect x="315" y="150" width="76" height="260" rx="4" fill="#1B63A6"/>
+          <rect x="330" y="170" width="12" height="16" fill="#E9F3FC" opacity=".5"/>
+          <rect x="356" y="170" width="12" height="16" fill="#E9F3FC" opacity=".7"/>
+          <rect x="330" y="205" width="12" height="16" fill="#E9F3FC" opacity=".4"/>
+          <rect x="356" y="205" width="12" height="16" fill="#E9F3FC" opacity=".6"/>
+          <rect x="330" y="240" width="12" height="16" fill="#E9F3FC" opacity=".5"/>
+          <rect x="356" y="240" width="12" height="16" fill="#E9F3FC" opacity=".3"/>
+          <rect x="330" y="275" width="12" height="16" fill="#E9F3FC" opacity=".6"/>
+          <rect x="356" y="275" width="12" height="16" fill="#E9F3FC" opacity=".4"/>
+        </g>
+        <g class="bld drift" style="animation-delay:2.6s">
+          <rect x="400" y="240" width="50" height="170" rx="4" fill="#0F3160"/>
+          <rect x="410" y="258" width="9" height="12" fill="#4E9BDB" opacity=".6"/>
+          <rect x="427" y="258" width="9" height="12" fill="#4E9BDB" opacity=".4"/>
+          <rect x="410" y="284" width="9" height="12" fill="#4E9BDB" opacity=".5"/>
+          <rect x="427" y="284" width="9" height="12" fill="#4E9BDB" opacity=".3"/>
+        </g>
+        <rect x="0" y="405" width="480" height="15" fill="#04101F"/>
+      </svg>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>مرر للأسفل</span><span class="line"></span></div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="about" id="about">
+  <div class="container about-grid">
+    <div class="about-art reveal">
+      <img src="https://ayan.sa/wp-content/uploads/2025/04/handshake-close-up-executives-1024x683.jpg" alt="فريق عيان العقارية">
+      <div class="tag">شراكة مبنية على الثقة والشفافية منذ التأسيس</div>
+    </div>
+    <div class="about-copy reveal">
+      <span class="eyebrow-plain">مرحبًا بكم في عيان</span>
+      <h2 style="font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; margin-bottom:22px;">شركة وطنية رائدة في التقييم العقاري وإدارة المزادات</h2>
+      <p>شركة عيان العقارية هي شركة وطنية رائدة في تقديم خدمات التقييم العقاري، وإدارة المزادات، وإدارة الأملاك، بأسلوب احترافي يعكس أعلى معايير الجودة والمصداقية.</p>
+      <p>تُعد عيان من الجهات المتخصصة في إدارة وتنظيم المزادات العقارية بمهنية عالية، حيث نعمل على تسويق وطرح العقارات للبيع بالمزاد العلني وفق أفضل الممارسات وبما يحقق أعلى عائد ممكن للعملاء، بالتعاون مع الجهات الحكومية والخاصة، وبأعلى معايير الشفافية من التقييم وحتى الإفراغ.</p>
+      <div class="founded">
+        <span>🏛️</span>
+        <p><b>تأسست عام 1441هـ في الرياض</b> — وتمتد خبرتها لأكثر من 5 أعوام في السوق العقاري السعودي، سعيًا لتعزيز الشراكة مع القطاعين الحكومي والخاص تحقيقًا لرؤية المملكة 2030.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow-plain">خدماتنا</span>
+      <h2>استفد من خدماتنا العقارية المتميزة لدعم قراراتك الذكية</h2>
+      <p>في عيان، نقدم مجموعة متكاملة من الخدمات العقارية المصممة بعناية لتلبية احتياجاتك وتحقيق أهدافك الاستثمارية.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card reveal">
+        <span class="num">01</span>
+        <div class="icn"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></div>
+        <h3>التقييم العقاري</h3>
+        <p>خدمات متميزة وعالية الجودة في مجال التقييم العقاري، بفريق عمل محترف يتمتع بخبرة واسعة وكفاءة عالية في تقديم الحلول المثلى لعملائنا.</p>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.1s">
+        <span class="num">02</span>
+        <div class="icn"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M4 7h16l-1 4H5L4 7ZM6 11v8h12v-8"/></svg></div>
+        <h3>إدارة المزادات</h3>
+        <p>إدارة متميزة وشاملة للمزادات العقارية، بخبرة تمتد لسنوات طويلة، عبر خدمات احترافية ومتكاملة تلبي احتياجات عملائنا وتساعدهم على تحقيق أهدافهم الاستثمارية بنجاح.</p>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.2s">
+        <span class="num">03</span>
+        <div class="icn"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V21H3V9.5Z"/><path d="M9 21v-6h6v6"/></svg></div>
+        <h3>إدارة الأملاك</h3>
+        <p>تحصيل الإيجارات وإعداد التقارير المالية، صيانة ومتابعة العقار بشكل دوري، إدارة عقود الإيجار وتجديدها، والتواصل مع المستأجرين لرفع رضاهم.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STATS BAND ================= -->
+<section class="stats-band">
+  <div class="container">
+    <div class="stats-grid">
+      <div><div class="num" data-count="850">0</div><div class="lbl">مليون ر.س قيمة أصول مُقيَّمة</div></div>
+      <div><div class="num" data-count="5">0</div><div class="lbl">أعوام خبرة</div></div>
+      <div><div class="num" data-count="15">0</div><div class="lbl">ألف ساعة خبرة تراكمية</div></div>
+      <div><div class="num" data-count="120">0</div><div class="lbl">مزاد مُنفَّذ</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROPERTIES ================= -->
+<section class="properties" id="properties">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow-plain">أبرز العقارات</span>
+      <h2>اكتشف أبرز العقارات المميزة لدينا</h2>
+      <p>نؤمن بأن العقار هو أحد أعمدة الاستثمار، ونعمل بكل تفانٍ على تعظيم قيمته وتحقيق أفضل النتائج لعملائنا.</p>
+    </div>
+    <div class="prop-grid">
+      <div class="prop-card reveal">
+        <div class="prop-img">
+          <img src="https://ayan.sa/wp-content/uploads/2025/06/WhatsApp-Image-2025-06-21-at-15.48.48-584x438.jpeg" alt="عمارة العزيزية شقة 106">
+          <span class="prop-badge">إيجار شهري</span>
+        </div>
+        <div class="prop-body">
+          <h4>عمارة العزيزية شقة 106</h4>
+          <div class="prop-loc">📍 حي العزيزية، الرياض</div>
+          <div class="prop-meta"><span class="prop-price">حسب الاتفاق</span><a href="#contact" style="font-family:'Cairo'; font-weight:700; font-size:.85rem; color:var(--blue-600);">التفاصيل ←</a></div>
+        </div>
+      </div>
+      <div class="prop-card reveal" style="transition-delay:.1s">
+        <div class="prop-img">
+          <img src="https://ayan.sa/wp-content/uploads/2025/04/WhatsApp-Image-2025-04-16-at-12.26.35-PM-584x438.jpeg" alt="شقة مميزة">
+          <span class="prop-badge">إيجار يومي</span>
+        </div>
+        <div class="prop-body">
+          <h4>شقة مميزة — غرفتين وحمام</h4>
+          <div class="prop-loc">📍 محمد بن إسماعيل الصنعاني، الخليج، الرياض</div>
+          <div class="prop-meta"><span class="prop-price">300 ر.س / يوم</span><a href="#contact" style="font-family:'Cairo'; font-weight:700; font-size:.85rem; color:var(--blue-600);">التفاصيل ←</a></div>
+        </div>
+      </div>
+      <div class="prop-card reveal" style="transition-delay:.2s">
+        <div class="prop-img">
+          <img src="https://ayan.sa/wp-content/uploads/2025/04/WhatsApp-Image-2025-04-16-at-12.25.56-PM-1-584x438.jpeg" alt="استديو للإيجار">
+          <span class="prop-badge">إيجار يومي</span>
+        </div>
+        <div class="prop-body">
+          <h4>استديو مفروش بالكامل</h4>
+          <div class="prop-loc">📍 الخليج، الرياض</div>
+          <div class="prop-meta"><span class="prop-price">300 ر.س / يوم</span><a href="#contact" style="font-family:'Cairo'; font-weight:700; font-size:.85rem; color:var(--blue-600);">التفاصيل ←</a></div>
+        </div>
+      </div>
+      <div class="prop-card reveal" style="transition-delay:.3s">
+        <div class="prop-img">
+          <img src="https://ayan.sa/wp-content/uploads/2025/04/WhatsApp-Image-2025-04-16-at-12.25.18-PM-584x438.jpeg" alt="شقة غرفة وصالة">
+          <span class="prop-badge">إيجار يومي</span>
+        </div>
+        <div class="prop-body">
+          <h4>شقة غرفة وصالة</h4>
+          <div class="prop-loc">📍 الخليج، الرياض</div>
+          <div class="prop-meta"><span class="prop-price">300 ر.س / يوم</span><a href="#contact" style="font-family:'Cairo'; font-weight:700; font-size:.85rem; color:var(--blue-600);">التفاصيل ←</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY US ================= -->
+<section class="why">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow-plain">لماذا عيان</span>
+      <h2>لماذا تختار عيان؟</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="m9 12 2 2 4-4M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4Z"/></svg></div>
+        <div><h4>مثمنون عقاريون معتمدون</h4><p>خدمات تقييم عقاري موثوقة ومعتمدة رسميًا من الجهات المختصة.</p></div>
+      </div>
+      <div class="why-card reveal" style="transition-delay:.1s">
+        <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></div>
+        <div><h4>خبرة عميقة في السوق السعودي</h4><p>فهم دقيق لحركة السوق المحلي، ومواكبة للتغيرات لحظة بلحظة.</p></div>
+      </div>
+      <div class="why-card reveal" style="transition-delay:.2s">
+        <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M7 3h10l2 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7l2-4Z"/><path d="M9 11h6M9 15h6"/></svg></div>
+        <div><h4>تقارير معتمدة لدى الجهات التمويلية</h4><p>تقارير دقيقة وشاملة تتوافق مع متطلبات البنوك والجهات التمويلية.</p></div>
+      </div>
+      <div class="why-card reveal" style="transition-delay:.3s">
+        <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1"/><circle cx="18" cy="9" r="2.4"/><path d="M15.5 21v-1a4.5 4.5 0 0 1 6-4.2"/></svg></div>
+        <div><h4>فريق متكامل من الخبراء</h4><p>يضم خبراء قانونيين وفنيين وإداريين لضمان جودة التقييم وموثوقيته.</p></div>
+      </div>
+      <div class="why-card reveal" style="transition-delay:.4s">
+        <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <div><h4>خدمة عملاء على مدار الساعة</h4><p>دعم متواصل لتلبية استفساراتك وخدمتك في أي وقت، طوال أيام الأسبوع.</p></div>
+      </div>
+      <div class="why-card reveal" style="transition-delay:.5s">
+        <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 4h16v12H7l-3 3V4Z"/></svg></div>
+        <div><h4>تواصل مباشر وشفاف</h4><p>استشارات عقارية واضحة، وحلول مدروسة تساعدك في اتخاذ قرار واثق.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section class="testi" id="testimonials">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow-plain">عملاؤنا</span>
+      <h2>من التحدي إلى الإنجاز — آراء عملائنا في خدمات عيان</h2>
+      <p>قصص عملائنا هي مرآة لاحترافنا، ودليل واضح على التزامنا بتقديم استشارات عقارية متميزة وحلول مدروسة.</p>
+    </div>
+    <div class="testi-track">
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="quote">يعطيهم العافية شركة عيان على حسن التعامل والاحترافية، وقدّموا لي استشارات مهنية أفادتني على المدى القريب. وأحب أشكر الأخ بندر الهوميل على حسن الضيافة والاستقبال.</p>
+        <div class="testi-name">بدر الفرمان</div>
+        <div class="testi-role">عميل — خدمة التقييم العقاري</div>
+      </div>
+      <div class="testi-card reveal" style="transition-delay:.1s">
+        <div class="stars">★★★★★</div>
+        <p class="quote">خدمتهم ممتازة، سريعين في التقييم، خلّصوني بسرعة وكانوا قد الثقة.</p>
+        <div class="testi-name">فهد العتيبي</div>
+        <div class="testi-role">عميل — خدمة التقييم العقاري</div>
+      </div>
+      <div class="testi-card reveal" style="transition-delay:.2s">
+        <div class="stars">★★★★★</div>
+        <p class="quote">جزاكم الله خيرًا على خدماتهم المميزة وجودتها التي فاقت توقعاتي، والفريق كان متابعًا معي في كل وقت ويرد علي بسرعة.</p>
+        <div class="testi-name">أحمد المسفر</div>
+        <div class="testi-role">عميل — إدارة الأملاك</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ARTICLES ================= -->
+<section class="articles">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow-plain">المقالات</span>
+      <h2>آخر المقالات والأخبار</h2>
+    </div>
+    <div class="art-grid">
+      <article class="art-card reveal">
+        <div class="art-img"><img src="https://ayan.sa/wp-content/uploads/2025/04/2387380.jpeg" alt="شركة عيان العقارية خبراء المزادات"></div>
+        <div class="art-body">
+          <span class="date">مقالة</span>
+          <h4>شركة عيان العقارية | خبراء المزادات العقارية وإدارة الأملاك في السعودية</h4>
+          <a class="more" href="#">اقرأ المزيد</a>
+        </div>
+      </article>
+      <article class="art-card reveal" style="transition-delay:.1s">
+        <div class="art-img"><img src="https://ayan.sa/wp-content/uploads/2025/04/still-life-world-intellectual-property-day-1024x683.jpg" alt="المزادات العقارية والسوق السعودي"></div>
+        <div class="art-body">
+          <span class="date">مقالة</span>
+          <h4>كيف تساهم المزادات العقارية في تنشيط السوق السعودي؟</h4>
+          <a class="more" href="#">اقرأ المزيد</a>
+        </div>
+      </article>
+      <article class="art-card reveal" style="transition-delay:.2s">
+        <div class="art-img"><img src="https://ayan.sa/wp-content/uploads/2025/04/handshake-close-up-executives-1024x683.jpg" alt="فرص استثمارية عقارية"></div>
+        <div class="art-body">
+          <span class="date">مقالة</span>
+          <h4>المزادات العقارية لشركة عيان: فرص استثمارية بأسلوب شفاف وآمن</h4>
+          <a class="more" href="#">اقرأ المزيد</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow-plain">تواصل معنا</span>
+      <h2>املأ بيانات النموذج وسنتصل بك في أقرب وقت</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <div>
+          <h3>عيان العقارية</h3>
+          <p>شركة وطنية رائدة في التقييم العقاري وإدارة المزادات وإدارة الأملاك، تأسست عام 1441هـ في الرياض.</p>
+        </div>
+        <div class="contact-list">
+          <div><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span> الرياض — المملكة العربية السعودية</div>
+          <a href="mailto:info@ayan.sa"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></span> info@ayan.sa</a>
+          <a href="tel:0556111028"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M22 16.9v2a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h2a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg></span> 0556111028</a>
+          <a href="https://wa.me/966920023034" target="_blank"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6a8.5 8.5 0 1 1 16.1-3.9Z"/></svg></span> واتساب: 966920023034+</a>
+        </div>
+      </div>
+      <form class="contact-form reveal" id="leadForm" style="transition-delay:.1s">
+        <h3>اطلب تقييمك الآن</h3>
+        <p class="sub">قم بملء المعلومات أدناه وسيتواصل معك فريقنا في أقرب وقت ممكن.</p>
+        <div class="field"><label>الاسم الكامل</label><input type="text" placeholder="اسمك" required></div>
+        <div class="field"><label>رقم الجوال</label><input type="tel" placeholder="05xxxxxxxx" required></div>
+        <div class="field"><label>نوع الخدمة</label>
+          <select>
+            <option>التقييم العقاري</option>
+            <option>إدارة المزادات</option>
+            <option>إدارة الأملاك</option>
+          </select>
+        </div>
+        <div class="field"><label>تفاصيل إضافية</label><textarea placeholder="اكتب رسالتك هنا"></textarea></div>
+        <button type="submit" class="btn btn-primary">إرسال الطلب</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site">
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">
+          <img src="https://ayan.sa/wp-content/uploads/2025/04/admin-ajax-1.png" alt="شعار عيان">
+          <span>عيان العقارية</span>
+        </div>
+        <p style="max-width:340px; font-size:.9rem;">تأسست عام 1441هـ في الرياض، واستمرت في السوق العقاري بخبرة تمتد لأكثر من 5 أعوام، سعيًا لتعزيز علاقاتها مع الجهات الحكومية والمؤسسات الخاصة تحقيقًا لرؤية المملكة 2030.</p>
+      </div>
+      <div>
+        <h5>روابط سريعة</h5>
+        <ul>
+          <li><a href="#top">الرئيسية</a></li>
+          <li><a href="#about">عن عيان</a></li>
+          <li><a href="#services">خدماتنا</a></li>
+          <li><a href="#properties">العقارات</a></li>
+          <li><a href="#contact">اتصل بنا</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>معلومات التواصل</h5>
+        <ul>
+          <li>الرياض — المملكة العربية السعودية</li>
+          <li><a href="mailto:info@ayan.sa">info@ayan.sa</a></li>
+          <li><a href="tel:0556111028">0556111028</a></li>
+          <li><a href="https://wa.me/966920023034" target="_blank">واتساب: 966920023034+</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 شركة عيان العقارية. جميع الحقوق محفوظة.</span>
+      <span>تصميم مقترح جديد — نسخة تجريبية لأغراض العرض</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll state
+  const navEl = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => {
+    navEl.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile menu
+  const burger = document.getElementById('burgerBtn');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Count-up numbers
+  const counters = document.querySelectorAll('[data-count]');
+  const countIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseInt(el.getAttribute('data-count'), 10);
+      const duration = 1400;
+      const start = performance.now();
+      function tick(now){
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.floor(eased * target).toLocaleString('en-US');
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = target.toLocaleString('en-US');
+      }
+      requestAnimationFrame(tick);
+      countIO.unobserve(el);
+    });
+  }, { threshold: 0.4 });
+  counters.forEach(c => countIO.observe(c));
+
+  // Lead form (demo only – no backend wired)
+  document.getElementById('leadForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const btn = this.querySelector('button');
+    const original = btn.textContent;
+    btn.textContent = 'تم استلام طلبك ✓';
+    btn.style.background = '#1E7A46';
+    setTimeout(() => { btn.textContent = original; btn.style.background = ''; this.reset(); }, 2600);
+  });
+</script>
+</body>
+</html>
